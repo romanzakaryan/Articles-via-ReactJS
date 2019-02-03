@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import CommentList from './CommentList'
 
 export default class Article extends Component {
 
@@ -16,7 +17,9 @@ export default class Article extends Component {
         return (
             <div>
                 <h3>{article.title}</h3>
-                <button onClick = {this.toggleOpen}>{isOpen ? "close" : "open"}</button>
+                <button onClick = {this.toggleOpen}>
+                    {isOpen ? "close" : "open"}
+                </button>
                 {this.getBody()}
             </div>
         )
@@ -31,7 +34,11 @@ export default class Article extends Component {
     getBody(){
         if(!this.state.isOpen) return null
         const {article} = this.props;
-        return <section>{article.text}</section>
-
+        return (
+            <div>
+                <section>{article.text}</section>
+                <CommentList comments = {article.comments}/>
+            </div>
+        )
     }
 }
