@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import CommentList from './CommentList'
 import PropTypes from 'prop-types'
+import toggleOpen from '../decorators/toggleOpen'
 
-export default class Article extends Component {
+class Article extends Component {
     static propTypes = {
         article: PropTypes.shape({
             id: PropTypes.string.isRequired,
@@ -12,21 +13,12 @@ export default class Article extends Component {
         })
     }
 
-    constructor(props){
-        super(props)
-
-        this.state = {
-            isOpen: false
-        } 
-    }
-
     render(){
-        const {article} = this.props;
-        const {isOpen} = this.state;
+        const {article, isOpen, toggleOpen} = this.props;
         return (
             <div>
                 <h3>{article.title}</h3>
-                <button onClick = {this.toggleOpen}>
+                <button onClick = {toggleOpen}>
                     {isOpen ? "close" : "open"}
                 </button>
                 {this.getBody()}
@@ -34,15 +26,9 @@ export default class Article extends Component {
         )
     }
 
-    toggleOpen = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        })
-    }
-
     getBody(){
-        if(!this.state.isOpen) return null
-        const {article} = this.props;
+        const {article, isOpen} = this.props;
+        if(!isOpen) return null
         return (
             <div>
                 <section>{article.text}</section>
@@ -51,3 +37,5 @@ export default class Article extends Component {
         )
     }
 }
+
+export default toggleOpen(Article)
